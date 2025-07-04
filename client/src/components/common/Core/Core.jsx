@@ -1,10 +1,6 @@
-/*!
- * Copyright (c) 2024 PLANKA Software GmbH
- * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
- */
-
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import { Loader } from 'semantic-ui-react';
 
@@ -14,13 +10,19 @@ import ModalTypes from '../../../constants/ModalTypes';
 import Message from './Message';
 import Toaster from '../Toaster';
 import Fixed from '../Fixed';
+import HeaderOnly from '../HeaderOnly/HeaderOnly.js'
 import Static from '../Static';
 import AdministrationModal from '../AdministrationModal';
 import UserSettingsModal from '../../users/UserSettingsModal';
 import ProjectBackground from '../../projects/ProjectBackground';
 import AddProjectModal from '../../projects/AddProjectModal';
 
+import Reports from '../Reports'; 
+import Paths from '../../../constants/Paths'; 
+
 const Core = React.memo(() => {
+  const location = useLocation();
+
   const isInitializing = useSelector(selectors.selectIsInitializing);
   const isSocketDisconnected = useSelector(selectors.selectIsSocketDisconnected);
   const modal = useSelector(selectors.selectCurrentModal);
@@ -28,14 +30,12 @@ const Core = React.memo(() => {
   const board = useSelector(selectors.selectCurrentBoard);
   const currentUserId = useSelector(selectors.selectCurrentUserId);
 
-  // TODO: move to selector?
   const isNewVersionAvailable = useSelector((state) => {
     const config = selectors.selectConfig(state);
     return !!config && config.version !== version;
   });
 
   const [t] = useTranslation();
-
   const defaultTitleRef = useRef(document.title);
 
   const handleRefreshPageClick = useCallback(() => {
@@ -60,15 +60,12 @@ const Core = React.memo(() => {
     switch (modal.type) {
       case ModalTypes.ADMINISTRATION:
         modalNode = <AdministrationModal />;
-
         break;
       case ModalTypes.USER_SETTINGS:
         modalNode = <UserSettingsModal />;
-
         break;
       case ModalTypes.ADD_PROJECT:
         modalNode = <AddProjectModal />;
-
         break;
       default:
     }
@@ -96,9 +93,6 @@ const Core = React.memo(() => {
         header={t('common.newVersionAvailable')}
         content={
           <Trans i18nKey="common.clickHereOrRefreshPageToUpdate">
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid,
-                                         jsx-a11y/click-events-have-key-events,
-                                         jsx-a11y/no-static-element-interactions */}
             <a onClick={handleRefreshPageClick}>Click here</a> or refresh the page to update
           </Trans>
         }
@@ -106,19 +100,29 @@ const Core = React.memo(() => {
     );
   }
 
+  if (isInitializing || !currentUserId) {
+    return <Loader active size="massive" />;
+  }
+
+  const isReportsPage = location.pathname.startsWith(Paths.REPORTS);
+
   return (
     <>
-      {isInitializing || !currentUserId ? (
-        <Loader active size="massive" />
+      <Toaster />
+      {!isReportsPage && <Fixed />}
+      {isReportsPage ? (
+
+        <div>
+          <HeaderOnly />
+          <Reports />
+        </div>
       ) : (
         <>
-          <Toaster />
           {project && project.backgroundType && <ProjectBackground />}
-          <Fixed />
           <Static />
-          {modalNode}
         </>
       )}
+      {modalNode}
       {messageNode}
     </>
   );

@@ -28,7 +28,19 @@ export const makeSelectActivityById = () =>
 
 export const selectActivityById = makeSelectActivityById();
 
+export const selectAllActivities = createSelector(
+  orm,
+  (_, __) => null,
+  ({ Activity }) => {
+    return Activity.all()
+      .toModelArray()
+      .map((model) => model.ref);
+  }
+);
+
+
 export default {
   makeSelectActivityById,
   selectActivityById,
+  selectAllActivities
 };

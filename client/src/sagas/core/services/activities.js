@@ -72,10 +72,31 @@ export function* handleActivityCreate(activity) {
   yield put(actions.handleActivityCreate(activity));
 }
 
+export function* fetchActivitiesInBoardForReports(boardId) {
+  yield put(actions.fetchActivitiesInBoard(boardId));
+
+  let activities, users;
+
+  try {
+    ({
+      items: activities,
+      included: { users },
+    } = yield call(request, api.getActivitiesInBoard, boardId, {
+      beforeId: undefined,
+    }));
+  } catch (error) {
+    yield put(actions.fetchActivitiesInBoard.failure(boardId, error));
+    return;
+  }
+
+  yield put(actions.fetchActivitiesInBoard.success(boardId, activities, users));
+}
+
 export default {
   fetchActivitiesInBoard,
   fetchActivitiesInCurrentBoard,
   fetchActivitiesInCard,
   fetchActivitiesInCurrentCard,
   handleActivityCreate,
+  fetchActivitiesInBoardForReports,
 };

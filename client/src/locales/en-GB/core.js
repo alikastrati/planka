@@ -241,6 +241,7 @@ export default {
       referenceDataAndKnowledgeStorage: 'Reference data and knowledge storage.',
       removeManager_title: 'Remove Manager',
       removeMember_title: 'Remove Member',
+      reports: 'Reports',
       role: 'Role',
       searchCards: 'Search cards...',
       searchCustomFieldGroups: 'Search custom field groups...',

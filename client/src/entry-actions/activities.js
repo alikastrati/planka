@@ -1,8 +1,3 @@
-/*!
- * Copyright (c) 2024 PLANKA Software GmbH
- * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
- */
-
 import EntryActionTypes from '../constants/EntryActionTypes';
 
 const fetchActivitiesInCurrentBoard = () => ({
@@ -22,8 +17,20 @@ const handleActivityCreate = (activity) => ({
   },
 });
 
+const fetchActivitiesForReports = (boardId) => ({
+  type: EntryActionTypes.ACTIVITIES_IN_BOARD_FETCH_FOR_REPORTS,
+  payload: { boardId },
+});
+
+const fetchActivitiesForReportsSuccess = (activities) => ({
+  type: EntryActionTypes.ACTIVITIES_IN_BOARD_FETCH_FOR_REPORTS_SUCCESS,
+  payload: { activities },
+});
+
 export default {
   fetchActivitiesInCurrentBoard,
   fetchActivitiesInCurrentCard,
   handleActivityCreate,
+  fetchActivitiesForReports,
+  fetchActivitiesForReportsSuccess,
 };

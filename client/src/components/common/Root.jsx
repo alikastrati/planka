@@ -14,6 +14,7 @@ import { ReduxRouter } from '../../lib/redux-router';
 
 import Paths from '../../constants/Paths';
 import Login from './Login';
+import Reports from './Reports'
 import Core from './Core';
 import NotFound from './NotFound';
 
@@ -37,6 +38,7 @@ function Root({ store, history }) {
               <Route path={Paths.PROJECTS} element={<Core />} />
               <Route path={Paths.BOARDS} element={<Core />} />
               <Route path={Paths.CARDS} element={<Core />} />
+              <Route path={Paths.REPORTS} element={<Core />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ToasterProvider>

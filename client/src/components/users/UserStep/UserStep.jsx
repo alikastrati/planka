@@ -13,11 +13,13 @@ import { Popup } from '../../../lib/custom-ui';
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { UserRoles } from '../../../constants/Enums';
-
+import {useNavigate} from 'react-router-dom'
 import styles from './UserStep.module.scss';
+
 
 const UserStep = React.memo(({ onClose }) => {
   const isLogouting = useSelector(selectors.selectIsLogouting);
+  const navigate = useNavigate();
 
   const withAdministration = useSelector(
     (state) => selectors.selectCurrentUser(state).role === UserRoles.ADMIN,
@@ -39,6 +41,11 @@ const UserStep = React.memo(({ onClose }) => {
     dispatch(entryActions.openAdministrationModal());
     onClose();
   }, [onClose, dispatch]);
+
+  const handleReportsClick = useCallback(() =>{
+    navigate('/reports');
+    onClose();
+  }, [navigate, onClose]); 
 
   let logoutMenuItemProps;
   if (isLogouting) {
@@ -79,6 +86,18 @@ const UserStep = React.memo(({ onClose }) => {
               <hr className={styles.divider} />
               <Menu.Item className={styles.menuItem} onClick={handleAdministrationClick}>
                 {t('common.administration', {
+                  context: 'title',
+                })}
+              </Menu.Item>
+            </>
+          )}
+
+
+          {withAdministration && (
+            <>
+              <hr className={styles.divider} />
+              <Menu.Item className={styles.menuItem} onClick={handleReportsClick}>
+                {t('common.reports', {
                   context: 'title',
                 })}
               </Menu.Item>

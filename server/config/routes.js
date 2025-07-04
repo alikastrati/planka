@@ -231,4 +231,10 @@ module.exports.routes = {
     view: 'index',
     skipAssets: true,
   },
+
+
+  'GET /api/boards/:boardId/reports/closed-cards-labels': {
+    action: 'reports/closed-cards-labels-in-board',
+  },
+
 };

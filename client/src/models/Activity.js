@@ -7,6 +7,7 @@ import { attr, fk } from 'redux-orm';
 
 import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
+import EntryActionTypes from '../constants/EntryActionTypes'
 
 export default class extends BaseModel {
   static modelName = 'Activity';
@@ -44,6 +45,7 @@ export default class extends BaseModel {
       case ActionTypes.LIST_CARDS_MOVE__SUCCESS:
       case ActionTypes.ACTIVITIES_IN_BOARD_FETCH__SUCCESS:
       case ActionTypes.ACTIVITIES_IN_CARD_FETCH__SUCCESS:
+      case EntryActionTypes.ACTIVITIES_IN_BOARD_FETCH_FOR_REPORTS_SUCCESS: 
         payload.activities.forEach((activity) => {
           Activity.upsert(activity);
         });

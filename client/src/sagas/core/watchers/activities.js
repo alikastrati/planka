@@ -19,5 +19,10 @@ export default function* activitiesWatchers() {
     takeEvery(EntryActionTypes.ACTIVITY_CREATE_HANDLE, ({ payload: { activity } }) =>
       services.handleActivityCreate(activity),
     ),
+    takeEvery(
+          EntryActionTypes.ACTIVITIES_IN_BOARD_FETCH_FOR_REPORTS,
+          ({ payload: { boardId } }) =>
+            services.fetchActivitiesInBoardForReports(boardId),
+    ),
   ]);
 }

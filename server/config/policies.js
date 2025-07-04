@@ -23,6 +23,8 @@ module.exports.policies = {
 
   'projects/create': ['is-authenticated', 'is-admin-or-project-owner'],
 
+  'boards/:boardId/reports/closed-cards-labels': ['is-authenticated', 'is-admin'],
+
   'config/show': true,
   'access-tokens/create': true,
   'access-tokens/exchange-with-oidc': true,

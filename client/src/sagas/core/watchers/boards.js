@@ -44,5 +44,9 @@ export default function* boardsWatchers() {
     takeEvery(EntryActionTypes.BOARD_DELETE_HANDLE, ({ payload: { board } }) =>
       services.handleBoardDelete(board),
     ),
+    takeEvery(
+      EntryActionTypes.BOARD_FETCH_FOR_REPORTS,
+      ({ payload: { boardId } }) => services.fetchBoard(boardId)
+    ),
   ]);
 }

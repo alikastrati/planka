@@ -93,6 +93,11 @@ const handleBoardDelete = (board) => ({
   },
 });
 
+const fetchBoardByIdForReports = (boardId) => ({
+  type: EntryActionTypes.BOARD_FETCH_FOR_REPORTS,
+  payload: { boardId },
+});
+
 export default {
   createBoardInCurrentProject,
   handleBoardCreate,
@@ -106,4 +111,5 @@ export default {
   searchInCurrentBoard,
   deleteBoard,
   handleBoardDelete,
+  fetchBoardByIdForReports,
 };
